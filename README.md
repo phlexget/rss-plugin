@@ -1,7 +1,16 @@
-# Transmission Plugin for Phlexget
+# Rss Plugin for Phlexget
 
-This plugin allows you to send your found torrents directly to Transmission, and start downloads quickly.
+Adds torrent RSS parsing capabilities to Phlexget.
 
 ## Configuration
 
-TODO
+```yaml
+tasks:
+    task-name:
+        rss:
+            - http://www.dailytvtorrents.org/rss/show/the-walking-dead
+            - http://www.dailytvtorrents.org/rss/show/game-of-thrones
+            - http://www.dailytvtorrents.org/rss/show/fringe
+            - ...
+```
+
