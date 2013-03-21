@@ -1,0 +1,21 @@
+{
+    "name": "phlexget/rss-plugin",
+    "description": "Adds torrent RSS parsing capabilities to Phlexget.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adán Lobato",
+            "email": "adan.lobato@gmail.com"
+        }
+    ],
+    "require": {
+        "phlexget/phlexget": "1.0.*@dev"
+    },
+    "autoload": {
+        "psr-0": { "Phlexget\\RssPlugin": "" }
+    },
+    "target-dir": "Phlexget/RssPlugin",
+    "extra":{
+        "branch-alias": { "dev-master": "1.0-dev" }
+    }
+}
