@@ -5,8 +5,7 @@ namespace Phlexget\RssPlugin;
 use Phlexget\Event\Task;
 use Phlexget\Plugin\AbstractPlugin;
 
-use Buzz\Browser as Buzz;
-use Buzz\Client\Curl;
+use SimplePie;
 
 class RssPlugin extends AbstractPlugin
 {
@@ -27,7 +26,7 @@ class RssPlugin extends AbstractPlugin
         $task->getOutput()->writeln('<comment>Rss Plugin</comment>:');
 
         $buzz = $this->get('buzz');
-        $xml = array();
+        $torrents = array();
         foreach ($config['rss'] as $rss) {
             $cache = $this->get('cache');
 
@@ -42,9 +41,24 @@ class RssPlugin extends AbstractPlugin
                 $task->getOutput()->writeln(sprintf(' - Loading rss <info>%s</info> from cache.', $rss));
             }
 
-            $xml[] = $data;
-        }
+            $simplepie = new SimplePie();
+            $simplepie->set_raw_data($data);
+            $simplepie->enable_cache(false);
+            $simplepie->init();
 
-        var_dump($xml);
+            foreach ($simplepie->get_items() as $item) {
+                $torrents[] = array(
+                    'title' => $item->get_title(),
+                    'description' => $item->get_description(),
+                    'date' => $item->get_date(),
+                    'link' => $item->get_enclosure(0)->get_link(),
+                    'size' => $item->get_enclosure(0)->get_length(),
+                );
+            }
+
+            $task['torrents'] = isset($task['torrents']) ?
+                array_merge($task['torrents'], $torrents) :
+                $torrents;
+        }
     }
 }
